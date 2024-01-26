@@ -5,6 +5,7 @@ sig_value = 0.05
 power_value = 0.8
 v_value = NULL
 synthesized_data_n = 10000 
+margin = 0.6
 
 # Fit a linear model to the preliminary data vector 
 preliminary_experiment = as.data.frame(matrix(nrow=7,ncol=4))
@@ -75,13 +76,15 @@ f2_value = lm_sample_synth_r2/(1-lm_sample_synth_r2)
   
 # Aim 1 
 u_value = 3 - 1 # anesthesia + random subject intercept + offset
-sample_size_Aim1 <- pwr.f2.test(u = u_value, v = NULL, f2 = f2_value, power = power_value)
+v_Aim1 <- pwr.f2.test(u = u_value, v = NULL, f2 = f2_value, power = power_value)
+group_sample_size_Aim1 = ceiling((v_Aim1$v + u_value + 1)/(2*margin)) 
 
 # Aim 2
 u_value = 5 - 1 # anesthesia + genotype + anesthesia x genotype + random subject intercept + offset
-sample_size_Aim2 <- pwr.f2.test(u = u_value, v = NULL, f2 = f2_value, power = power_value)
-
+v_Aim2 <- pwr.f2.test(u = u_value, v = NULL, f2 = f2_value, power = power_value)
+group_sample_size_Aim2 = ceiling((v_Aim2$v + u_value + 1)/(2*margin))
 
 # Aim 3
 u_value = 5 - 1 # time + genotype + time x genotype + random subject intercept + offset
-sample_size_Aim3 <- pwr.f2.test(u = u_value, v = NULL, f2 = f2_value, power = power_value)
+v_Aim3 <- pwr.f2.test(u = u_value, v = NULL, f2 = f2_value, power = power_value)
+group_sample_size_Aim3 = ceiling((v_Aim3$v + u_value + 1)/(2*margin))
